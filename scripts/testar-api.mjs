@@ -1,3 +1,4 @@
+import { createServer } from 'node:http';
 import net from 'node:net';
 import { spawn } from 'node:child_process';
 import { chmodSync, existsSync, mkdtempSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
@@ -24,6 +25,9 @@ const smtp = net.createServer(socket => {
   });
 });
 await new Promise(resolve => smtp.listen(1026, '127.0.0.1', resolve));
+const linhas = [];
+const planilha = createServer(async (req,res) => { let body=''; for await (const chunk of req) body+=chunk; linhas.push(JSON.parse(body)); res.writeHead(200,{'Content-Type':'application/json'}); res.end(JSON.stringify({ok:true})); });
+await new Promise(resolve=>planilha.listen(4186,'127.0.0.1',resolve));
 const privado = mkdtempSync(path.join(tmpdir(), 'sejamaestro-individual-'));
 writeFileSync(path.join(privado, 'config.php'), "<?php return ['habilitado'=>true,'url'=>'http://127.0.0.1:4184','remetente'=>'teste@example.invalid'];");
 const caixa = path.join(privado, 'mensagem.txt');
@@ -34,7 +38,7 @@ if (process.platform !== 'win32') {
 }
 const php = process.env.PHP_BINARY || 'php';
 const mailArgs = process.platform === 'win32' ? ['-d', 'SMTP=127.0.0.1', '-d', 'smtp_port=1026'] : ['-d', `sendmail_path=${sendmail}`];
-const servidor = spawn(php, [...mailArgs, '-S', '127.0.0.1:4184', '-t', 'dist'], { env: { ...process.env, SEJAMAESTRO_INDIVIDUAL_PRIVATE_DIR: privado }, stdio: ['ignore', 'ignore', 'pipe'] });
+const servidor = spawn(php, [...mailArgs, '-S', '127.0.0.1:4184', '-t', 'dist'], { env: { ...process.env, MAESTRO_SHEET_WEBHOOK:'http://127.0.0.1:4186', SEJAMAESTRO_INDIVIDUAL_PRIVATE_DIR: privado }, stdio: ['ignore', 'ignore', 'pipe'] });
 let falhas = ''; servidor.stderr.on('data', d => { falhas += d; });
 const base = 'http://127.0.0.1:4184/api/assessment.php';
 try {
@@ -60,6 +64,8 @@ try {
   assert.match(resposta.headers.get('cache-control'),/no-store/);
   const arquivo = await fetch('http://127.0.0.1:4184/.sejamaestro-individual/resultados/'+token+'.json');
   assert.equal((await arquivo.text()).includes('teste@example.invalid'),false);
+  assert.equal(linhas[0].linha.QUESTIONARIO,'sejamaestroindividual');
+  assert.deepEqual(JSON.parse(linhas[0].linha['Respostas Maestro']).Flow,[5,5,5,5]);
   console.log('PASS: validação, e-mail local, link pessoal, dados privados e recálculo.');
 } catch (e) { console.error(falhas); throw e; }
-finally { servidor.kill(); smtp.close(); rmSync(privado,{recursive:true,force:true}); }
+finally { servidor.kill(); planilha.close(); smtp.close(); rmSync(privado,{recursive:true,force:true}); }
