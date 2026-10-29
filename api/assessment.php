@@ -39,10 +39,11 @@ try {
     $from = $config['remetente'] ?? '';
     if (!filter_var($from, FILTER_VALIDATE_EMAIL) || preg_match('/[\r\n]/', $from)) throw new RuntimeException('sender');
     $token = bin2hex(random_bytes(32));
-    $id = bin2hex(random_bytes(16));
+    $id = uuidAssessment();
     $arquivo = $dir . '/' . hash('sha256', $token) . '.json';
     $registro = ['id' => $id, 'dados' => $dados + ['receita' => $v['receita']], 'expira' => $agora + 7 * 86400, 'enviado' => false];
     if (file_put_contents($arquivo, json_encode($registro, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE), LOCK_EX) === false) throw new RuntimeException('storage');
+    gravarPlanilhaAssessment($dados, $id, 'sejamaestroindividual');
     $url = $base . '/#resultado=' . $token;
     $mensagem = "Olá!\n\nSeu diagnóstico Seja Maestro está pronto. Acesse seus resultados pelo link pessoal abaixo:\n\n" . $url . "\n\nEste acesso vale por sete dias. Não compartilhe o link.\nSe você não respondeu ao questionário, ignore esta mensagem.\n\nEquipe Maestro";
     $headers = ['From' => $from, 'MIME-Version' => '1.0', 'Content-Type' => 'text/plain; charset=UTF-8', 'Content-Transfer-Encoding' => '8bit'];

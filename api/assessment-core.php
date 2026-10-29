@@ -38,3 +38,22 @@ function limitarAssessment(string $dir, string $ip, int $agora): bool {
         return true;
     } finally { flock($f, LOCK_UN); fclose($f); }
 }
+
+function uuidAssessment(): string {
+    $b = random_bytes(16); $b[6] = chr((ord($b[6]) & 15) | 64); $b[8] = chr((ord($b[8]) & 63) | 128);
+    $h = bin2hex($b); return substr($h,0,8).'-'.substr($h,8,4).'-'.substr($h,12,4).'-'.substr($h,16,4).'-'.substr($h,20);
+}
+function linhaAssessment(array $d, string $id, string $origem): array {
+    $r = ['ID'=>$id, 'QUESTIONARIO'=>$origem, 'Nome'=>$d['nome'], 'E-mail'=>$d['email'], 'WhatsApp'=>$d['cel'], 'Empresa'=>$d['empresa'], 'Setor'=>$d['setor'], 'Faturamento'=>$d['faixaReceita'], 'Maturidade geral'=>$d['maturidadeGeral'], 'Maior dor'=>$d['maiorDor'], 'Nota maior dor'=>$d['maiorDorNota'], 'Valor em risco/ano'=>$d['valorEmRiscoAno'], 'Risco (%)'=>$d['valorEmRiscoPct'], 'Veredicto'=>$d['banda']];
+    $respostas = [];
+    foreach ($d['modulos'] as $m) { $r[$m['modulo']] = $m['nota']; $respostas[$m['modulo']] = $m['respostas']; }
+    $r['Respostas Maestro'] = json_encode($respostas, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
+    return $r;
+}
+function gravarPlanilhaAssessment(array $d, string $id, string $origem): void {
+    if (!function_exists('curl_init')) throw new RuntimeException('sheet unavailable');
+    $c = curl_init('https://n8n.i9criacoes.com.br/webhook/vc-sabia-maestro');
+    curl_setopt_array($c, [CURLOPT_POST=>true, CURLOPT_POSTFIELDS=>json_encode(['evento'=>'desbloqueio','linha'=>linhaAssessment($d,$id,$origem)], JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR), CURLOPT_HTTPHEADER=>['Content-Type: application/json'], CURLOPT_RETURNTRANSFER=>true, CURLOPT_TIMEOUT=>15, CURLOPT_CONNECTTIMEOUT=>4]);
+    $body = curl_exec($c); $status = (int) curl_getinfo($c, CURLINFO_HTTP_CODE); curl_close($c);
+    if ($body === false || $status < 200 || $status >= 300) throw new RuntimeException('sheet delivery');
+}
