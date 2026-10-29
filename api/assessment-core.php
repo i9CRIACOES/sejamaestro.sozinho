@@ -52,7 +52,7 @@ function linhaAssessment(array $d, string $id, string $origem): array {
 }
 function gravarPlanilhaAssessment(array $d, string $id, string $origem): void {
     if (!function_exists('curl_init')) throw new RuntimeException('sheet unavailable');
-    $c = curl_init('https://n8n.i9criacoes.com.br/webhook/vc-sabia-maestro');
+    $c = curl_init(getenv('MAESTRO_SHEET_WEBHOOK') ?: 'https://n8n.i9criacoes.com.br/webhook/vc-sabia-maestro');
     curl_setopt_array($c, [CURLOPT_POST=>true, CURLOPT_POSTFIELDS=>json_encode(['evento'=>'desbloqueio','linha'=>linhaAssessment($d,$id,$origem)], JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR), CURLOPT_HTTPHEADER=>['Content-Type: application/json'], CURLOPT_RETURNTRANSFER=>true, CURLOPT_TIMEOUT=>15, CURLOPT_CONNECTTIMEOUT=>4]);
     $body = curl_exec($c); $status = (int) curl_getinfo($c, CURLINFO_HTTP_CODE); curl_close($c);
     if ($body === false || $status < 200 || $status >= 300) throw new RuntimeException('sheet delivery');
