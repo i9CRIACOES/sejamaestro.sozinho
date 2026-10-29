@@ -98,7 +98,7 @@ export function Cofre({ id, indice, desbloqueado, aberto, enviado, nome, aoEnvia
             O cofre
           </p>
           <h2 id={`${id}-t`} className="mt-4 text-balance text-[2rem] font-extrabold leading-[1.05] tracking-tight md:text-5xl">
-            {enviado ? "Confira seu e-mail." : aberto ? "Cofre aberto." : "Desbloqueie os seus resultados."}
+            {enviado ? "Confira seu e-mail." : aberto ? "Cofre aberto." : "Receba seu diagnóstico."}
           </h2>
           <p className="mt-4 max-w-[46ch] text-pretty leading-relaxed text-muted-foreground md:text-lg">
             {enviado ? "Enviamos um link pessoal para você acessar seu diagnóstico. Confira também a pasta de spam." : aberto
@@ -165,7 +165,7 @@ export function Cofre({ id, indice, desbloqueado, aberto, enviado, nome, aoEnvia
             <span aria-hidden className="absolute -left-1.5 top-10 h-10 w-3 rounded-full bg-white/25" />
             <span aria-hidden className="absolute -left-1.5 bottom-10 h-10 w-3 rounded-full bg-white/25" />
             <div className="flex items-center justify-between">
-              <p className="text-sm font-bold text-offwhite/90">Preencha e abra o cofre</p>
+              <p className="text-sm font-bold text-offwhite/90">Preencha para receber o link</p>
               <motion.span
                 key={aberto ? "aberto" : "fechado"}
                 aria-hidden

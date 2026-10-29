@@ -43,7 +43,7 @@ export function MapaPassos({ feitas, atual, aoIr }: { feitas: boolean[]; atual: 
         })}
       </ol>
       <span
-        aria-label={todos ? "Resultado liberado" : "Resultado no fim"}
+        aria-label={todos ? "Envio liberado" : "Link ao final"}
         className={cn("grid h-7 w-8 shrink-0 place-items-center rounded-md md:h-8 md:w-9", todos ? "bg-warn text-ink" : "border border-dashed border-warn/50 text-warn/60")}
       >
         <Trophy className="size-4" strokeWidth={2.2} aria-hidden />
@@ -126,7 +126,7 @@ export function TrilhoPassos({ feitas, atual, aoIr, mostrar }: { feitas: boolean
       </ol>
       <div className="mt-3 flex items-center gap-2 border-t border-white/10 pt-3 text-sm">
         <Trophy className={cn("size-4", ok === total ? "text-warn" : "text-warn/40")} strokeWidth={2.2} aria-hidden />
-        <span className={cn("font-sans font-bold", ok === total ? "text-warn" : "text-warn/50")}>{ok === total ? "Resultado liberado" : "Resultado"}</span>
+        <span className={cn("font-sans font-bold", ok === total ? "text-warn" : "text-warn/50")}>{ok === total ? "Envio liberado" : "Link por e-mail"}</span>
       </div>
     </nav>
   );
