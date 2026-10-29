@@ -1,0 +1,1 @@
+var e=new Map;function c(n,t){e.set(n,t)}function f(n){return e.get(n)}function o(){return e}var a=new Map;function i(n,t){a.set(n,t)}function s(n){return a.get(n)}var u=new Set;function p(n,t){let r=`${t}:${n}`;u.has(r)||u.add(r)}export{f as a,o as e,p as f,i as s,c as t,s as u};
