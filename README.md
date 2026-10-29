@@ -23,3 +23,9 @@ O webhook GitHub → Plesk acompanha a branch deploy. Cada push em main passa pe
 Para reverter, reverta em main e publique o novo build após CI. Confira o commit no Plesk e na URL. Os registros privados permanecem fora do deploy.
 
 Falhas de rede ou validação mantêm o formulário editável e permitem repetir o envio. Opções suportam setas/Home/End, os controles anunciam o enunciado completo e têm área de toque de 44px.
+
+## Planilha compartilhada
+
+A API envia as respostas validadas ao fluxo Maestro, com QUESTIONARIO `sejamaestroindividual`. As colunas próprias do assessment incluem as cinco médias, maturidade, maior dor, risco e Respostas Maestro (JSON com as vinte notas). As colunas Composer existentes são preservadas. Falhas na entrega à planilha retornam erro.
+
+A integração HTTP usa uma planilha simulada local e não grava dados de teste em produção. `MAESTRO_SHEET_WEBHOOK` permite substituir o destino apenas por configuração do servidor nos testes.
