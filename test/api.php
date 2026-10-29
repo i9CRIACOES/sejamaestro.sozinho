@@ -25,3 +25,9 @@ try {
     verificar(limitarAssessment($dir,'local',13601));
 } finally { foreach (glob($dir.'/*') as $f) unlink($f); rmdir($dir); }
 echo "$checks verificações PHP passaram.\n";
+
+$uuid = uuidAssessment();
+verificar((bool)preg_match('/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/D', $uuid));
+$linha = linhaAssessment($r, $uuid, 'sejamaestro');
+verificar($linha['QUESTIONARIO'] === 'sejamaestro' && $linha['Flow'] === 5 && $linha['Valor em risco/ano'] === 437500000);
+verificar(json_decode($linha['Respostas Maestro'], true)['CX'] === [5,5,5,5]);
