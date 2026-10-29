@@ -1,0 +1,66 @@
+export const MODULOS = [
+  { nome: 'Flow', subtitulo: 'Fundação de dados', areas: ['CRM', 'E-commerce', 'Atendimento'],
+    perguntas: [
+      'Reconheço o mesmo cliente de forma única entre loja, e-commerce, app e atendimento.',
+      'Minhas fontes (ERP, CRM, e-comm, WhatsApp, mídia) estão integradas e confiáveis — não em planilha/manual.',
+      'Tenho governança de dados por design: segurança, qualidade, permissão e rastreabilidade.',
+      'Os dados chegam prontos e acionáveis às áreas, sem depender do time técnico a cada pedido.',
+    ],
+    prova: 'Santander — dados + processos = 6x produtividade, −80% no volume de planilhas.',
+    fonte: 'Mercado: Gartner — ao menos 30% dos projetos de GenAI abandonados por dado desconectado.',
+    rota: 'Comece pela fundação: Flow — unifique a identidade do cliente, integre e governe. Sem isso, IA sobre dado ruim exponencia o erro.',
+  },
+  { nome: 'Insights', subtitulo: 'BI, analytics & preditivo', areas: ['Vendas', 'CRM', 'Atendimento'],
+    perguntas: [
+      'Meus dashboards trazem previsão e recomendação — não só o retrovisor do que já aconteceu.',
+      'Acompanho métricas de valor (LTV, CAC, churn, retenção) em tempo de agir.',
+      "Consigo ir do 'o que aconteceu' ao 'por quê' e ao 'o que fazer' sem abrir um projeto.",
+      'Exploro oportunidades ocultas nos dados (data discovery), não só o óbvio.',
+    ],
+    prova: 'Santander — fechamento que levava 2–3 dias passou a levar 6h (decisão em tempo de agir).',
+    fonte: 'Mercado: Gartner — líderes de IA investem até 4x mais em fundação de dados → até 65% mais resultado.',
+    rota: 'Ative Insights — do retrovisor à previsão e recomendação; a decisão chega no tempo de agir, não depois.',
+  },
+  { nome: 'Teams', subtitulo: 'Decision Teams — agentes governados', areas: ['CRM', 'Vendas', 'Loyalty'],
+    perguntas: [
+      'Entrego a próxima melhor ação/oferta (NBA/NBO) por cliente — não o mesmo para todos.',
+      'Minha IA aprende e decide com governança (permissão, auditabilidade) — não é Shadow AI solta.',
+      'Tenho modelos de propensão, churn e forecast em uso real na decisão.',
+      'As decisões acontecem no tempo certo, não dias depois que a oportunidade passou.',
+    ],
+    prova: 'O mercado já provou que agente com contexto entrega — no Brasil, o WhatsApp converte ~6x mais que o e-commerce (Chat Commerce Report 2025). O Teams não é bot de atendimento: é o agente que decide a próxima melhor ação, com contexto e governança.',
+    fonte: 'Mercado: Gartner — até 15% das decisões do dia a dia serão autônomas via IA agêntica até 2028 (0% em 2024); porém >40% dos projetos agênticos serão cancelados até 2027 por custo/governança. Governança separa quem colhe de quem cancela.',
+    rota: 'Ative Decision Teams — a próxima melhor ação por cliente, governada e auditável, no momento certo.',
+  },
+  { nome: 'Composer', subtitulo: 'Creative Intelligence', areas: ['E-commerce', 'CRM', 'Loyalty', 'Mídia'],
+    perguntas: [
+      'Crio conteúdo e campanhas em escala com coerência total de marca (Brand DNA).',
+      'Do briefing ao disparo aprovado leva minutos/horas — não semanas.',
+      'Meu criativo é conectado a dado e desempenho (testado antes de ir ao ar), não achismo.',
+      'Personalizo canais próprios (site, app, newsletter) — não só disparo genérico.',
+    ],
+    prova: 'Youcom — +35% volume de envios, +22,2% CTR, +22,6% CTOR; e)lens — +92% abertura, +2,7x receita do e-mail.',
+    fonte: 'Mercado: EMARKETER/Toluna — criativo validado antes do ar = +46% receita e +9% economia de mídia (menos de 10% dos criativos são testados).',
+    rota: 'Ative Composer (Creative Intelligence) — hiperpersonalização em escala, com criativo validado antes de ir ao ar.',
+  },
+  { nome: 'CX', subtitulo: 'Orquestração & experiência', areas: ['CRM', 'E-commerce', 'Loyalty', 'Atendimento'],
+    perguntas: [
+      'Minhas jornadas têm ritmo e condição (ação certa no momento certo), não mensagens empilhadas.',
+      'Tenho política central de frequência/supressão — personalizar não virou sobrecomunicar.',
+      'Ativo no canal e no momento de maior probabilidade (e-mail, WhatsApp, push, SMS).',
+      'Recupero o valor que vaza — carrinho, reativação, retenção, cashback — no tempo certo.',
+    ],
+    prova: "Renner — +157% receita na régua de onboarding, +119% receita por envio; Habib's — +10% share de visitas, +7% share de receita e +7% frequência via CRM (CRM + Loyalty).",
+    fonte: 'Foco em recuperar recorrência e LTV da base que a empresa já tem.',
+    rota: 'Ative CX — orquestre a jornada e recupere o valor que vaza (carrinho, reativação, retenção, cashback).',
+  },
+] as const;
+
+export const SETORES = ['Varejo', 'E-commerce / DTC', 'Financeiro', 'Educação', 'Viagens / Aéreas', 'Mobilidade / Auto', 'Telecom', 'Franquias'];
+export const RECEITAS = [
+  { rotulo: 'R$ 200M – 500M', valor: 300 },
+  { rotulo: 'R$ 500M – 1 BI', valor: 750 },
+  { rotulo: 'R$ 1 BI – 4 BI', valor: 2500 },
+  { rotulo: 'Acima de R$ 4 BI', valor: 5000 },
+];
+export const NOTA_METODO = 'Cases entregues pela Always On com método — o Maestro é esse método virado plataforma; resultados anteriores ao produto não são atribuídos a ele. Cases citados (nomeáveis): Youcom, Renner, e)lens, Habib’s, Santander, Easynvest. Estatísticas de mercado: Gartner (projetos de GenAI e investimento em fundação de dados), EMARKETER/Toluna (creative intelligence). ISO 27001/27701 do Maestro em estágio avançado para certificação. Estimativa de valor em risco: indicativa para priorização, calibrada à faixa de 5–30% do valor potencial — não é projeção contábil.';

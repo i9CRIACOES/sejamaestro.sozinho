@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-ink: var(--ink);
+  --color-navy: var(--navy);
+  --color-navy-light: var(--navy-light);
+  --color-offwhite: var(--offwhite);
+  --color-ciano: var(--ciano);
+  --color-violeta: var(--violeta);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-err: var(--err);
+}
+
+:root {
+  --ink: oklch(0.09 0.03 265);
+  --navy: oklch(0.16 0.05 265);
+  --navy-light: oklch(0.22 0.06 265);
+  --offwhite: oklch(0.93 0.02 280);
+  --ciano: oklch(0.82 0.15 210);
+  --violeta: oklch(0.55 0.25 295);
+  --ok: oklch(0.78 0.17 155);
+  --warn: oklch(0.83 0.16 85);
+  --err: oklch(0.68 0.21 25);
+  --background: var(--ink);
+  --foreground: var(--offwhite);
+  --card: var(--navy);
+  --primary: var(--ciano);
+  --primary-foreground: var(--ink);
+  --muted: oklch(1 0 0 / 7%);
+  --muted-foreground: oklch(0.75 0.03 270);
+  --border: oklch(1 0 0 / 10%);
+  --ring: var(--ciano);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --esteira-h: 4.5rem;
+  --cabecalho-h: 0rem;
+  --mapa-h: 2.75rem;
+  --nav-h: 3.75rem;
+}
+@media (min-width: 768px) {
+  :root { --esteira-h: 5.25rem; }
+}
+@media (min-width: 1024px) {
+  :root { --mapa-h: 0rem; }
+}
+
+html { scroll-padding-top: calc(var(--cabecalho-h) + var(--mapa-h)); }
+body { overflow-x: clip; }
+
+/* Fita zebrada de chão de fábrica (estações trancadas). */
+.fita-zebrada {
+  background: repeating-linear-gradient(-45deg, var(--warn) 0 10px, oklch(0.2 0.03 265) 10px 20px);
+}
+
+/* Lona da esteira: listras que correm para a direita (só transform, fora da thread principal). */
+@keyframes lona {
+  from { transform: translateX(-24px); }
+  to { transform: translateX(0); }
+}
+.lona {
+  background: repeating-linear-gradient(90deg, oklch(1 0 0 / 0.14) 0 2px, transparent 2px 12px);
+  animation: lona 0.9s linear infinite;
+}
+
+/* Passo do robô enquanto anda. */
+@keyframes passo {
+  0%, 100% { transform: translateY(0) rotate(-3deg); }
+  50% { transform: translateY(-3px) rotate(3deg); }
+}
+.andando { animation: passo 0.32s ease-in-out infinite; }
+
+/* Faixa rolante do letreiro. */
+@keyframes faixa {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.faixa { animation: faixa 18s linear infinite; }
+
+/* Engrenagem e ponteiros. */
+@keyframes girar { to { transform: rotate(360deg); } }
+.girar { animation: girar 6s linear infinite; }
+
+:focus-visible { outline: 2px solid var(--ciano); outline-offset: 3px; }
+
+@keyframes flutuar {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.flutuar {
+  animation: flutuar 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Robozinho recortado do /robo.png (cabeça + pescoço), em em: font-size = largura da caixa. */
+.robo-mini {
+  width: 1em;
+  height: 1.065em;
+  background: url("/robo.png") no-repeat;
+  background-size: 2.665em auto;
+  background-position: -0.957em -0.239em;
+  -webkit-mask-image: radial-gradient(ellipse 58% 60% at 50% 46%, #000 72%, transparent 100%);
+  mask-image: radial-gradient(ellipse 58% 60% at 50% 46%, #000 72%, transparent 100%);
+}
+
+/* Números em destaque: halo que acompanha o mouse (mesmo efeito dos contadores do Arsenal) */
+.palco-contador { position: relative; isolation: isolate; }
+.palco-contador::before {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 70%; height: 140%; z-index: -1; pointer-events: none;
+  transform: translate(calc(-50% + var(--palco-x, 0px)), calc(-50% + var(--palco-y, 0px)));
+  background: radial-gradient(closest-side, var(--ciano), transparent);
+  opacity: 0.16; filter: blur(48px);
+}
+.num-hiper { cursor: default; }
+
+/* Passo atual no mapa do topo: pulso suave */
+@keyframes passo-pulso { 0%, 100% { box-shadow: 0 0 0 2px var(--ciano), 0 0 10px var(--ciano); } 50% { box-shadow: 0 0 0 2px var(--ciano), 0 0 22px var(--ciano); } }
+.passo-atual { animation: passo-pulso 1.6s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .passo-atual { animation: none; } }
+
+/* Botão Próximo pronto: brilho que chama o olho, sem pop-up */
+@keyframes proximo-brilho { 0%, 100% { box-shadow: 0 0 0 0 oklch(0.82 0.15 210 / 0.55), 0 8px 24px -8px var(--ciano); } 50% { box-shadow: 0 0 0 6px oklch(0.82 0.15 210 / 0), 0 8px 32px -6px var(--ciano); } }
+.proximo-pronto { animation: proximo-brilho 1.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .proximo-pronto { animation: none; } }
+
+/* Fim cinematográfico: o brilho de fundo respira */
+@keyframes respirar { from { scale: 1; opacity: 0.6; } to { scale: 1.1; opacity: 1; } }
+.respirar { animation: respirar 8s ease-in-out infinite alternate; }
+@media (prefers-reduced-motion: reduce) { .respirar { animation: none; } }
+
+/* Laser da linha de otimização: pisca de leve */
+@keyframes laser { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+.laser { animation: laser 1.2s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .laser { animation: none; } }
+
+::selection { background: var(--ciano); color: var(--ink); }
+html, .hud ol { scrollbar-width: thin; scrollbar-color: var(--navy-light) var(--ink); }
+input, select, textarea { caret-color: var(--ciano); }
+button:enabled, a[href], [role="button"]:not([aria-disabled="true"]) { cursor: pointer; }
+button:disabled, [aria-disabled="true"] { cursor: not-allowed; }
+.assessment-range { appearance: none; height: 44px; cursor: pointer; background: transparent; accent-color: var(--ciano); }
+.assessment-range::-webkit-slider-runnable-track { height: 6px; border-radius: 10px; background: var(--navy-light); }
+.assessment-range::-webkit-slider-thumb { appearance: none; margin-top: -7px; width: 20px; height: 20px; border-radius: 50%; background: var(--ciano); border: 3px solid var(--ink); box-shadow: 0 2px 5px #0006; }
+.assessment-range::-moz-range-track { height: 6px; border-radius: 10px; background: var(--navy-light); }
+.assessment-range::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--ciano); border: 3px solid var(--ink); }
+@media (forced-colors: active) { .assessment-range { appearance: auto; } }
