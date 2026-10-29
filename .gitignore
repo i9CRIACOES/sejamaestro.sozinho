@@ -9,3 +9,4 @@ lh.json
 *.tsbuildinfo
 graphify-out/
 .sejamaestro/
+.sejamaestro-individual/
